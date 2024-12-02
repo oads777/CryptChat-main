@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "207175518064",
+    "project_id": "cryptchat-e7ad0",
+    "storage_bucket": "cryptchat-e7ad0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207175518064:android:e13d308c55a433d590b1b5",
+        "android_client_info": {
+          "package_name": "com.worldsvoice.cryptchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA75-ANSYO6hcsXpVHPTbvy2LjBAmmEIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

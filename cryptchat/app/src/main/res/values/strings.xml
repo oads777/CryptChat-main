@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">CryptChat</string>
+    <string name="chat_icon_description">CryptChat Icon</string>
+    <string name="splash_text">Dev by Worlds Voice</string>
+    <string name="register_title">Register</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="register_button">Register</string>
+    <string name="back_to_login_button">Back</string>
+    <string name="add_friend">Add Friend</string>
+
+
+
+</resources>
