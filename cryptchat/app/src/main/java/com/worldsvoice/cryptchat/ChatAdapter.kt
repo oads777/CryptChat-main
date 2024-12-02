@@ -6,10 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ChatAdapter(private val chatList: List<String>) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
+class ChatAdapter(
+    private val chatList: List<Chat>,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
-    class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val chatName: TextView = itemView.findViewById(R.id.tvChatName)
+    interface OnItemClickListener {
+        fun onItemClick(chatId: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
@@ -18,8 +21,20 @@ class ChatAdapter(private val chatList: List<String>) : RecyclerView.Adapter<Cha
     }
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        holder.chatName.text = chatList[position]
+        val chat = chatList[position]
+        holder.bind(chat)
     }
 
-    override fun getItemCount() = chatList.size
+    override fun getItemCount(): Int = chatList.size
+
+    inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvChatName: TextView = itemView.findViewById(R.id.tvChatName)
+
+        fun bind(chat: Chat) {
+            tvChatName.text = chat.name
+            itemView.setOnClickListener {
+                listener.onItemClick(chat.id)
+            }
+        }
+    }
 }

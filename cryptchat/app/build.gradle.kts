@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,6 +9,13 @@ plugins {
 android {
     namespace = "com.worldsvoice.cryptchat"
     compileSdk = 35
+
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+
 
     defaultConfig {
         applicationId = "com.worldsvoice.cryptchat"

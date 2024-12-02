@@ -10,6 +10,9 @@
     <string name="register_button">Register</string>
     <string name="back_to_login_button">Back</string>
     <string name="add_friend">Add Friend</string>
+    <string name="hint_message">Message</string>
+    <string name="btn_sendmessage">Send</string>
+
 
 
 
