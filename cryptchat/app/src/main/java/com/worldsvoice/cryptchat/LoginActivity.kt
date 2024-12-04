@@ -6,11 +6,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.worldsvoice.cryptchat.AuthRepository
 import com.google.firebase.firestore.FirebaseFirestore
+
 
 class LoginActivity : AppCompatActivity() {
 
-    private val db = FirebaseFirestore.getInstance()
+    private val authRepo = AuthRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,18 +32,23 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Verificar dados no Firebase
-            db.collection("users").document(username).get().addOnSuccessListener { document ->
-                if (document != null && document.getString("password") == password) {
-                    Toast.makeText(this, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, DashboardActivity::class.java)
-                    startActivity(intent)
-                    finish()
+            // Verificar se as credenciais estão corretas no Firebase
+            authRepo.login(username, password) { success ->
+                if (success) {
+                    // Carregar a chave secreta do usuário após login
+                    authRepo.getUserSecretKey(username) { secretKey ->
+                        if (secretKey != null) {
+                            val intent = Intent(this, DashboardActivity::class.java)
+                            intent.putExtra("username", username) // Passar o nome de usuário
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(this, "Erro ao carregar a chave secreta", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } else {
                     Toast.makeText(this, "Credenciais inválidas", Toast.LENGTH_SHORT).show()
                 }
-            }.addOnFailureListener {
-                Toast.makeText(this, "Erro ao verificar usuário", Toast.LENGTH_SHORT).show()
             }
         }
 

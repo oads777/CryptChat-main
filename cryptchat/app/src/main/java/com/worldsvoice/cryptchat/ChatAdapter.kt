@@ -11,8 +11,22 @@ class ChatAdapter(
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
+    // Interface para escutar cliques
     interface OnItemClickListener {
         fun onItemClick(chatId: String)
+    }
+
+    inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvChatName: TextView = itemView.findViewById(R.id.tvChatName)
+
+        fun bind(chat: Chat) {
+            tvChatName.text = chat.name
+
+            // Configura o clique no item
+            itemView.setOnClickListener {
+                listener.onItemClick(chat.id) // Chama o método da interface
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
@@ -26,15 +40,4 @@ class ChatAdapter(
     }
 
     override fun getItemCount(): Int = chatList.size
-
-    inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvChatName: TextView = itemView.findViewById(R.id.tvChatName)
-
-        fun bind(chat: Chat) {
-            tvChatName.text = chat.name
-            itemView.setOnClickListener {
-                listener.onItemClick(chat.id)
-            }
-        }
-    }
 }

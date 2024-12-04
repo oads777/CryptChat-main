@@ -8,9 +8,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 
+// RegisterActivity.kt
 class RegisterActivity : AppCompatActivity() {
 
-    private val db = FirebaseFirestore.getInstance()
+    private val authRepo = AuthRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,22 +38,15 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Adicionar dados ao Firebase
-            val userData = hashMapOf(
-                "username" to username,
-                "password" to password
-            )
-
-            db.collection("users").document(username).set(userData)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Registro concluído", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Erro ao registrar usuário", Toast.LENGTH_SHORT).show()
-                }
+            // Registrar usuário e gerar chave secreta
+            authRepo.register(username, password).addOnSuccessListener {
+                Toast.makeText(this, "Registro concluído", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Erro ao registrar usuário", Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnBackToLogin.setOnClickListener {

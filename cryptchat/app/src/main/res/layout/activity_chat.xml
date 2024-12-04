@@ -1,31 +1,38 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- RecyclerView para mostrar as mensagens -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMessages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <!-- Layout para o campo de mensagem e o botão de envio -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
+        <!-- EditText para digitar a mensagem -->
         <EditText
             android:id="@+id/etMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Digite sua mensagem" />
+            android:hint="Digite sua mensagem"
+            android:padding="10dp"
+            android:inputType="text" />
 
+        <!-- Botão para enviar a mensagem -->
         <Button
-            android:id="@+id/btnSendMessage"
+            android:id="@+id/btnSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enviar" />
     </LinearLayout>
+
 </LinearLayout>
