@@ -1,38 +1,89 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".ChatActivity">
 
-    <!-- RecyclerView para mostrar as mensagens -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMessages"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <!-- Layout para o campo de mensagem e o botão de envio -->
-    <LinearLayout
+    <!-- Toolbar -->
+    <RelativeLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:background="@color/primary">
 
-        <!-- EditText para digitar a mensagem -->
-        <EditText
-            android:id="@+id/etMessage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Digite sua mensagem"
-            android:padding="10dp"
-            android:inputType="text" />
+        <!-- Back Button -->
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/chat_icon"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_centerVertical="true" />
 
-        <!-- Botão para enviar a mensagem -->
-        <Button
-            android:id="@+id/btnSend"
+        <!-- Profile Picture -->
+        <include
+            layout="@layout/profile_pic_view"
+            android:id="@+id/profile_pic_view"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@id/back_btn" />
+
+        <!-- Username -->
+        <TextView
+            android:id="@+id/other_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enviar" />
-    </LinearLayout>
+            android:text="Username"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/white_color"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@id/profile_pic_view"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
 
-</LinearLayout>
+    <!-- Chat RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar" />
+
+    <!-- Bottom Layout -->
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:padding="8dp">
+
+        <!-- Message Input -->
+        <EditText
+            android:id="@+id/chat_message_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Write message here"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="4dp"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/message_send_btn"
+            android:layout_marginEnd="10dp" />
+
+        <!-- Send Button -->
+        <ImageButton
+            android:id="@+id/message_send_btn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/chat_icon"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            app:tint="@color/primary" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.worldsvoice.cryptchat">
 
@@ -8,35 +9,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.cryptchat">
-
+        <activity
+            android:name=".SearchUser"
+            android:exported="false" />
         <!-- Splash Screen -->
         <activity
             android:name=".Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Tela de Login -->
+        </activity> <!-- Tela de Login -->
         <activity
             android:name=".LoginActivity"
-            android:exported="true" />
-
-        <!-- Tela de Dashboard -->
+            android:exported="true" /> <!-- Tela de Dashboard -->
         <activity
             android:name=".DashboardActivity"
             android:exported="true" />
-
         <activity
-        android:name=".RegisterActivity"
-        android:exported="true" />
-
+            android:name=".RegisterActivity"
+            android:exported="true" />
         <activity
             android:name=".ChatActivity"
             android:exported="true" />
-
-
     </application>
+
 </manifest>

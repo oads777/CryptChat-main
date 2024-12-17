@@ -63,7 +63,17 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore") // Firestore
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore:24.11.0")
+
+
 
     // Tink (para criptografia)
     implementation("com.google.crypto.tink:tink-android:1.7.0")
+
+    implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
+
+    implementation ("androidx.appcompat:appcompat:1.6.1")
+
+
+
 }
