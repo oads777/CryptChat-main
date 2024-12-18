@@ -1,5 +1,10 @@
 package com.worldsvoice.cryptchat.utils;
 
+import static android.content.ContentValues.TAG;
+
+import android.nfc.Tag;
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -31,11 +36,15 @@ public class FirebaseUtil {
     }
 
     public static String getChatroomId(String userId1,String userId2){
+        Log.d(TAG, "ESTOU AQUI");
         if(userId1.hashCode()<userId2.hashCode()){
+            Log.d(TAG, "ESTOU sucesso");
             return userId1+"_"+userId2;
         }else{
+            Log.d(TAG, "ESTOU falha");
             return userId2+"_"+userId1;
         }
+
     }
 
 }
