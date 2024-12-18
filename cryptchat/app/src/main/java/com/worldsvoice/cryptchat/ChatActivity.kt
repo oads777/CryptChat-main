@@ -38,8 +38,8 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        otherUser = AndroidUtil.getUserModelFromIntent(intent)
-        chatroomId = FirebaseUtil.getChatroomId(FirebaseUtil.currentUserId(),otherUser.userId)
+        /*otherUser = AndroidUtil.getUserModelFromIntent(intent)
+        chatroomId = FirebaseUtil.getChatroomId(FirebaseUtil.currentUserId(),otherUser.getUserId())
 
         // Find views by ID
         messageInput = findViewById(R.id.chat_message_input)
@@ -47,36 +47,35 @@ class ChatActivity : AppCompatActivity() {
         backBtn = findViewById(R.id.back_btn)
         otherUsername = findViewById(R.id.other_username)
         recyclerView = findViewById(R.id.chat_recycler_view)
-
+*/
         // Set back button click listener
-        /*backBtn.setOnClickListener {
+        backBtn.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
-        }*/
+        }
 
-        // Set username text
+        /*// Set username text
         otherUsername.text = otherUser.getUsername()
 
+        getOrCreateChatroomModel()*/
     }
 
     private fun getOrCreateChatroomModel() {
         FirebaseUtil.getChatroomReference(chatroomId).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val chatroomModel = task.result?.toObject(ChatroomModel::class.java)
+                var chatroomModel = task.result?.toObject(ChatroomModel::class.java)
                 if (chatroomModel == null) {
-                    // First time chat
-                    val newChatroomModel = ChatroomModel(
+                    // Primeiro chat: cria um novo modelo de Chatroom
+                    chatroomModel = ChatroomModel(
                         chatroomId,
-                        listOf(FirebaseUtil.currentUserId(), otherUser.userId),
-                        Timestamp.now(), // Timestamp do Firebase
-                        "" // lastMessageSenderId vazio
+                        listOf(FirebaseUtil.currentUserId(), otherUser.getUserId()), // Lista de IDs
+                        com.google.firebase.Timestamp.now(), // Timestamp do Firebase
+                        "", // lastMessageSenderId vazio
+                        "" // lastMessage vazio
                     )
-
-                    FirebaseUtil.getChatroomReference(chatroomId).set(newChatroomModel)
                 }
             }
         }
     }
-
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)

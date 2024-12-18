@@ -20,7 +20,8 @@
             android:layout_height="32dp"
             android:src="@drawable/chat_icon"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:contentDescription="Go back to previous screen" /> <!-- Adicionado -->
 
         <!-- Profile Picture -->
         <include
@@ -83,7 +84,8 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:padding="8dp"
-            app:tint="@color/primary" />
+            app:tint="@color/primary"
+            android:contentDescription="Send message" /> <!-- Adicionado -->
     </RelativeLayout>
 
 </RelativeLayout>

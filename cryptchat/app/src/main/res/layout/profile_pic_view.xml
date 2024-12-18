@@ -10,7 +10,7 @@
         android:background="@drawable/chat_icon"
         android:src="@drawable/chat_icon"
         android:padding="4dp"
-        android:tint="@color/black_color"
+        app:tint="@color/black_color"
         android:backgroundTint="@color/off_white"
         android:layout_centerInParent="true"
         android:id="@+id/profile_pic_view"/>
