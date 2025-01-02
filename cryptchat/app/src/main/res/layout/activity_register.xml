@@ -31,6 +31,23 @@
             android:inputType="textEmailAddress"
             android:autofillHints="username"
             android:padding="12dp"
+            android:drawableStart="@drawable/baseline_person_24"
+            android:drawableTint="@color/primary"
+            android:drawablePadding="10dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/secondary" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:drawableStart="@drawable/baseline_email_24"
+            android:drawableTint="@color/primary"
+            android:drawablePadding="10dp"
+            android:inputType="textEmailAddress"
+            android:autofillHints="username"
+            android:padding="12dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/secondary" />
 
@@ -43,6 +60,9 @@
             android:inputType="textPassword"
             android:autofillHints="password"
             android:padding="12dp"
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:drawableTint="@color/primary"
+            android:drawablePadding="10dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/secondary" />
 
@@ -54,6 +74,9 @@
             android:hint="@string/confirm_password_hint"
             android:inputType="textPassword"
             android:padding="12dp"
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:drawableTint="@color/primary"
+            android:drawablePadding="10dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/secondary" />
 

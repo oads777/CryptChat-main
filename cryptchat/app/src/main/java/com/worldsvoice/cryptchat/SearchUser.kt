@@ -1,24 +1,34 @@
 package com.worldsvoice.cryptchat
 
+import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.worldsvoice.cryptchat.adpater.SearchUserRyclerAdpater
-import com.worldsvoice.cryptchat.utils.FirebaseUtil
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseException
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.worldsvoice.cryptchat.adpater.SearchUsersAdapter
+import com.worldsvoice.cryptchat.model.HelperClass
 import com.worldsvoice.cryptchat.model.UserModel
+import com.worldsvoice.cryptchat.utils.CryptoUtils
 
 class SearchUser : AppCompatActivity() {
     private lateinit var searchInput: EditText
     private lateinit var searchButton: ImageButton
     private lateinit var backButton: ImageButton
     private lateinit var recyclerView: RecyclerView
-
-    private lateinit var adapter: SearchUserRyclerAdpater
-
+    lateinit var dbRefUsers: DatabaseReference
+    lateinit var progressDialog: ProgressDialog
+    private lateinit var adapter: SearchUsersAdapter
+    var list: ArrayList<UserModel> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +38,19 @@ class SearchUser : AppCompatActivity() {
         searchButton = findViewById(R.id.search_user_btn)
         backButton = findViewById(R.id.back_btn)
         recyclerView = findViewById(R.id.search_user_rycler_view)
+        dbRefUsers = FirebaseDatabase.getInstance().getReference("Users")
+
+        progressDialog = ProgressDialog(this)
+        progressDialog.setTitle(getString(R.string.app_name))
+        progressDialog.setMessage("Please wait...")
+        progressDialog.setCancelable(false)
+
+        getDataFromDatabase()
 
         searchInput.requestFocus()
 
         backButton.setOnClickListener {
-           onBackPressed()
+            finish()
         }
 
         searchButton.setOnClickListener {
@@ -46,38 +64,52 @@ class SearchUser : AppCompatActivity() {
         }
     }
 
+    private fun getDataFromDatabase() {
+        progressDialog.show()
+        dbRefUsers.addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    list.clear()
+                    progressDialog.dismiss()
+                    for (ds in snapshot.children) {
+                        try {
+                            val model: UserModel? = ds.getValue(UserModel::class.java)
+                            if (model?.userId != HelperClass.users?.userId) {
+                                val secretKeyName = CryptoUtils.getKeyFromString(model?.userKey!!)
+                                val decryptedUsername = CryptoUtils.decryptMessage(model.username!!, secretKeyName)
+                                model.username = decryptedUsername
+                                list.add(model)
+                            }
+                        } catch (e: DatabaseException) {
+                            e.printStackTrace()
+                        }
+                    }
+
+                } else {
+                    progressDialog.dismiss()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                progressDialog.dismiss()
+                Toast.makeText(this@SearchUser, error.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
     fun setupSearchRecyclerView(searchTerm: String) {
-        val query = FirebaseUtil.allUserCollectionReference()
-            .whereGreaterThanOrEqualTo("username", searchTerm)
-
-        val options = FirestoreRecyclerOptions.Builder<UserModel>()
-            .setQuery(query, UserModel::class.java)
-            .build()
-
-        adapter = SearchUserRyclerAdpater(options,applicationContext)
+        var usersList: ArrayList<UserModel> = ArrayList()
+        usersList.clear()
+        list.forEach {
+            if (it.username?.contains(searchTerm) == true) {
+                usersList.add(it)
+            }
+        }
+        adapter = SearchUsersAdapter(usersList, applicationContext)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-        adapter.startListening()
+        adapter.notifyDataSetChanged()
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (::adapter.isInitialized) {
-            adapter.startListening()
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (::adapter.isInitialized) {
-            adapter.stopListening()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (::adapter.isInitialized) {
-            adapter.startListening()
-        }
-    }
 }
