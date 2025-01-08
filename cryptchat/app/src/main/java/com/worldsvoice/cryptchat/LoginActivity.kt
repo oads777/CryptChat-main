@@ -71,15 +71,7 @@ class LoginActivity : AppCompatActivity() {
                                 if (snapshot.exists()) {
                                     val model: UserModel? =
                                         snapshot.getValue(UserModel::class.java)
-                                    val secretKeyName = CryptoUtils.getKeyFromString(model?.userKey!!)
-                                    val decryptedUsername = CryptoUtils.decryptMessage(model?.username!!, secretKeyName)
-
-                                    val secretKeyEmail = CryptoUtils.getKeyFromString(model?.emailKey!!)
-                                    val decryptedEmail = CryptoUtils.decryptMessage(model?.email!!, secretKeyEmail)
-
                                     HelperClass.users = model
-                                    HelperClass.users?.username = decryptedUsername
-                                    HelperClass.users?.email = decryptedEmail
                                     progressDialog.dismiss()
                                     val intent =
                                         Intent(this@LoginActivity, DashboardActivity::class.java)

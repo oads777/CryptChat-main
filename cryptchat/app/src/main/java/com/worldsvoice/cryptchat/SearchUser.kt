@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener
 import com.worldsvoice.cryptchat.adpater.SearchUsersAdapter
 import com.worldsvoice.cryptchat.model.HelperClass
 import com.worldsvoice.cryptchat.model.UserModel
-import com.worldsvoice.cryptchat.utils.CryptoUtils
 
 class SearchUser : AppCompatActivity() {
     private lateinit var searchInput: EditText
@@ -76,10 +75,7 @@ class SearchUser : AppCompatActivity() {
                         try {
                             val model: UserModel? = ds.getValue(UserModel::class.java)
                             if (model?.userId != HelperClass.users?.userId) {
-                                val secretKeyName = CryptoUtils.getKeyFromString(model?.userKey!!)
-                                val decryptedUsername = CryptoUtils.decryptMessage(model.username!!, secretKeyName)
-                                model.username = decryptedUsername
-                                list.add(model)
+                                list.add(model!!)
                             }
                         } catch (e: DatabaseException) {
                             e.printStackTrace()

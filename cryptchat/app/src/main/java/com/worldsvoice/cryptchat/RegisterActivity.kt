@@ -1,6 +1,7 @@
 package com.worldsvoice.cryptchat
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Base64
 import android.util.Patterns
@@ -70,27 +71,18 @@ class RegisterActivity : AppCompatActivity() {
             progressDialog.show()
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener { authResult: AuthResult? ->
-                    val secretKeyName = CryptoUtils.generateKey()
-                    val encodedKeyName = Base64.encodeToString(secretKeyName.encoded, Base64.DEFAULT)
-                    val encryptedName = CryptoUtils.encryptMessage(username, secretKeyName)
-
-                    val secretKeyEmail = CryptoUtils.generateKey()
-                    val encodedKeyEmail = Base64.encodeToString(secretKeyEmail.encoded, Base64.DEFAULT)
-                    val encryptedEmail = CryptoUtils.encryptMessage(email, secretKeyEmail)
-
-                    val secretKeyPass = CryptoUtils.generateKey() // Gerar a chave secreta
-                    val encodedKeyPass = Base64.encodeToString(secretKeyPass.encoded, Base64.DEFAULT)
-                    val encryptedPassword = CryptoUtils.encryptMessage(password, secretKeyPass)
+                    val secretKey = CryptoUtils.generateKey() // Gerar a chave secreta
+                    val encodedKey = Base64.encodeToString(secretKey.encoded, Base64.DEFAULT)
+                    // Criptografar a senha antes de salvar
+                    val encryptedPassword = CryptoUtils.encryptMessage(password, secretKey)
 
                     val model =
                         UserModel(
                             auth.currentUser!!.uid,
-                            encryptedName,
-                            encodedKeyName,
-                            encryptedEmail,
-                            encodedKeyEmail,
+                            username,
+                            email,
                             encryptedPassword,
-                            encodedKeyPass
+                            encodedKey
                         )
 
                     dbRefUsers.child(auth.currentUser!!.uid).setValue(model)
